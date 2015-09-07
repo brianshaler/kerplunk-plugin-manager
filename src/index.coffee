@@ -1,8 +1,6 @@
 _ = require 'lodash'
 Promise = require 'when'
 request = require 'request'
-sslRootCAs = require 'ssl-root-cas/latest'
-sslRootCAs.inject()
 
 module.exports = (System) ->
   mongoose = System.getMongoose 'kerplunk'
