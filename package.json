@@ -12,7 +12,7 @@
   "dependencies": {
     "lodash": "^3.7.0",
     "react": "^0.13.2",
-    "react-bootstrap": "^0.24.2",
+    "react-bootstrap": "0.24.5",
     "request": "^2.61.0",
     "when": "^3.7.2"
   },
