@@ -7,6 +7,7 @@ Button = React.createFactory Bootstrap.Button
 Input = React.createFactory Bootstrap.Input
 
 Category = require './category'
+categorize = require './categorize'
 
 {DOM} = React
 
@@ -41,7 +42,7 @@ module.exports = React.createFactory React.createClass
       @setState
         loading: false
         results: results
-        resultsByCategory: @resultsByCategory results
+        resultsByCategory: categorize results
     @setState
       results: []
       loading: true
@@ -57,29 +58,7 @@ module.exports = React.createFactory React.createClass
         result
       @setState
         results: results
-        resultsByCategory: @resultsByCategory results
-
-  resultsByCategory: (plugins) ->
-    grouped = _ plugins
-      .reduce (memo, plugin) ->
-        categories = _ plugin.keywords
-          .filter (keyword) -> /^kp:/.test keyword
-          .map (keyword) -> keyword.substring 3
-          .value()
-        unless categories.length > 0
-          categories.push 'Miscellaneous'
-        for category in categories
-          memo[category] = [] unless memo[category]
-          memo[category].push plugin
-        memo
-      , {}
-    _ grouped
-      .map (plugins, name) ->
-        name: name
-        plugins: _.sortBy plugins, (plugin) ->
-          plugin.displayName ? plugin.name
-      .sortBy 'name'
-      .value()
+        resultsByCategory: categorize results
 
   render: ->
     searchButton = Button

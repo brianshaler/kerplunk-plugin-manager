@@ -1,9 +1,9 @@
 _ = require 'lodash'
 React = require 'react'
 
-Dependencies = require './dependencies'
-Permissions = require './permissions'
-Recommendations = require './recommendations'
+Dependencies = require './plugin/dependencies'
+Permissions = require './plugin/permissions'
+Recommendations = require './plugin/recommendations'
 
 {DOM} = React
 

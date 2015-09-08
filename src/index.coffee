@@ -208,18 +208,26 @@ module.exports = (System) ->
       return next err if err
       res.send body
 
+  recommended = (req, res, next) ->
+    console.log 'getting recommendations'
+    request 'https://kerplunk.io/plugins/recommended.json', (err, response, body) ->
+      return next err if err
+      res.send body
+
   routes:
     admin:
       '/admin/plugins': 'setup'
       '/admin/plugins/:name/enable': 'enable'
       '/admin/plugins/:name/disable': 'disable'
       '/admin/plugins/search': 'search'
+      '/admin/plugins/recommended': 'recommended'
 
   handlers:
     setup: setup
     enable: enable
     disable: disable
     search: search
+    recommended: recommended
 
   globals:
     public:

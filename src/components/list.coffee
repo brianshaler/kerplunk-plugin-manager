@@ -4,6 +4,7 @@ Bootstrap = require 'react-bootstrap'
 
 Category = require './category'
 Search = require './search'
+categorize = require './categorize'
 
 {DOM} = React
 
@@ -15,6 +16,8 @@ module.exports = React.createFactory React.createClass
     plugins: @props.plugins ? []
     permissions: @props.permissions ? {}
     categorizedPlugins: @categorizePlugins @props.plugins ? []
+    recommendations: []
+    showRecommendations: false
 
   togglePlugin: (plugin, permissions = [], additional = []) ->
     if plugin.kerplunk?.dependencies
@@ -87,6 +90,36 @@ module.exports = React.createFactory React.createClass
     # console.log 'all', all
     all
 
+  getRecommendations: (e) ->
+    e.preventDefault()
+    @setState
+      showRecommendations: true
+      recommendations: 'loading'
+    url = '/admin/plugins/recommended.json'
+    @props.request.get url, {}, (err, data) =>
+      if err
+        @setState
+          showRecommendations: true
+          recommendations: 'error'
+        return console.log err
+      if data?.plugins?.length > 0
+        console.log "got #{data.plugins.length} plugins, filtering out #{@state.plugins.length} existing"
+        newPlugins = _ data.plugins
+        .map (plugin) ->
+          try
+            obj = JSON.parse plugin.data
+            if obj?.versions?[obj?['dist-tags']?.latest]
+              _.merge plugin, obj.versions[obj['dist-tags'].latest]
+          catch ex
+            console.log "could not parse plugin.data for #{plugin?.name}"
+          plugin
+        .filter (plugin) =>
+          !(_.find @state.plugins, (p) => p.name == plugin.name)
+        .value()
+        console.log 'new', newPlugins, @state.plugins[0]
+        @setState
+          recommendations: categorize newPlugins
+
   render: ->
     {active, available} = @state.categorizedPlugins
 
@@ -138,6 +171,32 @@ module.exports = React.createFactory React.createClass
                 plugins: category.plugins
                 allPlugins: @state.plugins
                 togglePlugin: @togglePlugin
+          DOM.h3 null, 'Recommended Plugins'
+          if @state.showRecommendations
+            if @state.recommendations == 'loading'
+              DOM.div null, 'loading'
+            else if @state.recommendations == 'error'
+              DOM.div null, 'error'
+            else if @state.recommendations instanceof Array
+              if @state.recommendations.length == 0
+                DOM.div null, 'no recommendations at this time'
+              else
+                Accordion
+                  className: 'plugin-list'
+                , _.map @state.recommendations, (category, index) =>
+                    Category _.extend {}, @props, @state,
+                      key: "category-#{category.name}"
+                      eventKey: String index
+                      category: category.name
+                      plugins: category.plugins
+                      allPlugins: @state.plugins
+                      togglePlugin: @togglePlugin
+          else
+            DOM.a
+              href: '#'
+              onClick: @getRecommendations
+              className: 'btn btn-default'
+            , 'find recommended plugins'
         DOM.div
           style:
             clear: 'both'
