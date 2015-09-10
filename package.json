@@ -31,5 +31,6 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/brianshaler/kerplunk-plugin-manager.git"
-  }
+  },
+  "license": "MIT"
 }
