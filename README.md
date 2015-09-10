@@ -1,6 +1,6 @@
 # kerplunk-plugin-manager
 
-[Kerplunk](https://github.com/brianshaler/kerplunk) plugin. 
+[Kerplunk](https://github.com/brianshaler/kerplunk) plugin. Provides an interface to manage plugins and is a gateway to installing and enabling plugins.
 
 [![Build Status](https://travis-ci.org/brianshaler/kerplunk-plugin-manager.svg)](https://travis-ci.org/brianshaler/kerplunk-plugin-manager)
 [![npm version](https://img.shields.io/npm/v/kerplunk-plugin-manager.svg)](https://www.npmjs.com/package/kerplunk-plugin-manager)
