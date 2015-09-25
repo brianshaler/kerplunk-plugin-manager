@@ -234,5 +234,5 @@ module.exports = (System) ->
       nav:
         Admin:
           Plugins: '/admin/plugins'
-      styles:
-        'kerplunk-plugin-manager/css/plugin_manager.css': ['/admin', '/admin/**']
+      css:
+        'kerplunk-plugin-manager:list': 'kerplunk-plugin-manager/css/plugin_manager.css'
