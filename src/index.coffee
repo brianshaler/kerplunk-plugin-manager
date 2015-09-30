@@ -5,6 +5,22 @@ request = require 'request'
 module.exports = (System) ->
   mongoose = System.getMongoose 'kerplunk'
 
+  skimPlugin = (plugin) ->
+    obj = {}
+    keys = [
+      'name'
+      'displayName'
+      'description'
+      'kerplunk'
+      'keywords'
+      'version'
+      'enabled'
+      'isCore'
+    ]
+    for key in keys
+      obj[key] = plugin[key]
+    obj
+
   getAllPlugins = ->
     deferred = Promise.defer()
     System.getAvailablePlugins (err, plugins, corePlugins) ->
@@ -84,7 +100,7 @@ module.exports = (System) ->
           plugins: _.map plugins, (plugin) ->
             plugin.displayName = plugin.displayName ? plugin.name
             plugin.description = plugin.description ? ''
-            plugin
+            skimPlugin plugin
       , (err) ->
         deferred.reject err
     deferred.promise
@@ -192,7 +208,7 @@ module.exports = (System) ->
       .done (state) ->
         if req.params.format == 'json'
           res.send _.extend {}, state,
-            plugin: plugin
+            plugin: skimPlugin plugin
         else
           res.redirect '/admin/plugins'
       , (err) ->
