@@ -2,7 +2,7 @@
   "name": "kerplunk-plugin-manager",
   "displayName": "Plugin Manager",
   "description": "Provides an interface to manage plugins and is a gateway to installing and enabling plugins.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "kerplunk-plugin"
   ],
