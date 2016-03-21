@@ -183,7 +183,7 @@ module.exports = (System) ->
           if newInstalls.length > 0
             System.do 'notification.flash',
               component: 'kerplunk-plugin-manager:flash'
-              plugins: _.pluck newInstalls, 'plugin'
+              plugins: _.map newInstalls, 'plugin'
           deferred.resolve plugin
       deferred.promise
 

@@ -27,7 +27,7 @@ module.exports = React.createFactory React.createClass
     granted = _ granted
       .map (permission) ->
         permission.replace /\.true$/, ''
-      .unique()
+      .uniq()
       .value()
 
     expanded: false
@@ -65,7 +65,7 @@ module.exports = React.createFactory React.createClass
       console.log 'permission', key, e.target.checked
       granted = @state.grantedPermissions
       if e.target.checked
-        granted = _.unique granted.concat key
+        granted = _.uniq granted.concat key
       else
         granted = _.filter granted, (k) -> k != key
       console.log 'orig', @state.grantedPermissions
@@ -77,7 +77,7 @@ module.exports = React.createFactory React.createClass
     (e) =>
       recs = @state.recommended
       if e.target.checked
-        recs = _.unique recs.concat name
+        recs = _.uniq recs.concat name
       else
         recs = _.filter recs, (r) -> r != name
       @setState
@@ -98,7 +98,7 @@ module.exports = React.createFactory React.createClass
     _ list
       .map (permission) ->
         permission.replace /\.true$/, ''
-      .unique()
+      .uniq()
       .sort()
       .value()
 
@@ -113,7 +113,7 @@ module.exports = React.createFactory React.createClass
           plugin.name == dep and (plugin.enabled or plugin.isCore)
         # console.log 'not found', dep unless found
         # unless found
-        #   console.log _.pluck @props.allPlugins, 'name'
+        #   console.log _.map @props.allPlugins, 'name'
         enableable = false unless found
     installing = @state.installing
     uninstalling = @state.uninstalling

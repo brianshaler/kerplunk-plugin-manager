@@ -22,7 +22,7 @@ module.exports = React.createFactory React.createClass
   togglePlugin: (plugin, permissions = [], additional = []) ->
     if plugin.kerplunk?.dependencies
       console.log 'add deps', plugin.kerplunk.dependencies
-      additional = _.unique additional.concat plugin.kerplunk.dependencies
+      additional = _.uniq additional.concat plugin.kerplunk.dependencies
     console.log 'toggle plugin', plugin, additional
     action = if plugin.enabled then 'disable' else 'enable'
     url = "/admin/plugins/#{plugin.name}/#{action}.json"
